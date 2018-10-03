@@ -1,0 +1,103 @@
+Cloning into 'mcl'...
+remote: Counting objects: 9732, done.
+remote: Compressing objects: 100% (28/28), done.
+remote: Total 9732 (delta 27), reused 41 (delta 22), pack-reused 9679
+Receiving objects: 100% (9732/9732), 3.60 MiB | 622.00 KiB/s, done.
+Resolving deltas: 100% (6800/6800), done.
+Checking connectivity... done.
+➜  bls git clone git://github.com/herumi/bls.git
+Cloning into 'bls'...
+remote: Counting objects: 1813, done.
+remote: Compressing objects: 100% (46/46), done.
+remote: Total 1813 (delta 20), reused 57 (delta 17), pack-reused 1744
+Receiving objects: 100% (1813/1813), 1.14 MiB | 806.00 KiB/s, done.
+Resolving deltas: 100% (887/887), done.
+Checking connectivity... done.
+➜  bls cd bls                                   
+➜  bls git:(master) make test UNIT=4
+g++ -g3 -Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align -Wwrite-strings -Wfloat-equal -Wpointer-arith -m64 -I include -I test -I ../xbyak -I ../cybozulib/include -fomit-frame-pointer -DNDEBUG -Ofast -march=native  -fPIC -std=c++11 -I../mcl/include -D"MCLBN_FP_UNIT_SIZE=4" -c src/bls.cpp -o obj/bls.o -MMD -MP -MF obj/bls.d
+
+ar r lib/libbls.a obj/bls.o
+ar: creating lib/libbls.a
+g++ -g3 -Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align -Wwrite-strings -Wfloat-equal -Wpointer-arith -m64 -I include -I test -I ../xbyak -I ../cybozulib/include -fomit-frame-pointer -DNDEBUG -Ofast -march=native  -fPIC -std=c++11 -I../mcl/include -D"MCLBN_FP_UNIT_SIZE=4" -c src/bls_c.cpp -o obj/bls_c384.o -MMD -MP -MF obj/bls_c384.d -DMBN_FP_UNIT_SIZE=6
+
+ar r lib/libbls384.a obj/bls.o obj/bls_c384.o
+ar: creating lib/libbls384.a
+make -C ../mcl
+make[1]: Entering directory '/home/neiman/work/programming/cryptography/bls/mcl'
+g++ -c src/asm/x86-64.s -o obj/x86-64.o -g3 -Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align -Wwrite-strings -Wfloat-equal -Wpointer-arith -m64 -I include -I test -I ../xbyak -I ../cybozulib/include -fomit-frame-pointer -DNDEBUG -Ofast -march=native  -fPIC -DMCL_XBYAK_DIRECT_CALL -DMCL_USE_LLVM=1
+
+g++ -c src/asm/x86-64.bmi2.s -o obj/x86-64.bmi2.o -g3 -Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align -Wwrite-strings -Wfloat-equal -Wpointer-arith -m64 -I include -I test -I ../xbyak -I ../cybozulib/include -fomit-frame-pointer -DNDEBUG -Ofast -march=native  -fPIC -DMCL_XBYAK_DIRECT_CALL -DMCL_USE_LLVM=1
+
+g++ -g3 -Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align -Wwrite-strings -Wfloat-equal -Wpointer-arith -m64 -I include -I test -I ../xbyak -I ../cybozulib/include -fomit-frame-pointer -DNDEBUG -Ofast -march=native  -fPIC -DMCL_XBYAK_DIRECT_CALL -DMCL_USE_LLVM=1 -c src/fp.cpp -o obj/fp.o -MMD -MP -MF obj/fp.d
+
+ar r lib/libmcl.a obj/fp.o obj/x86-64.o obj/x86-64.bmi2.o
+ar: creating lib/libmcl.a
+g++ -o lib/libmcl_dy.so obj/fp.o obj/x86-64.o obj/x86-64.bmi2.o -shared -lrt -lgmp -lgmpxx -lcrypto -m64  
+
+g++ -g3 -Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align -Wwrite-strings -Wfloat-equal -Wpointer-arith -m64 -I include -I test -I ../xbyak -I ../cybozulib/include -fomit-frame-pointer -DNDEBUG -Ofast -march=native  -fPIC -DMCL_XBYAK_DIRECT_CALL -DMCL_USE_LLVM=1 -c src/bn_c256.cpp -o obj/bn_c256.o -MMD -MP -MF obj/bn_c256.d
+
+ar r lib/libmclbn256.a obj/bn_c256.o
+ar: creating lib/libmclbn256.a
+g++ -o lib/libmclbn256_dy.so obj/bn_c256.o -shared -lrt -lgmp -lgmpxx -lcrypto -m64  
+
+g++ -g3 -Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align -Wwrite-strings -Wfloat-equal -Wpointer-arith -m64 -I include -I test -I ../xbyak -I ../cybozulib/include -fomit-frame-pointer -DNDEBUG -Ofast -march=native  -fPIC -DMCL_XBYAK_DIRECT_CALL -DMCL_USE_LLVM=1 -c src/bn_c384.cpp -o obj/bn_c384.o -MMD -MP -MF obj/bn_c384.d
+
+ar r lib/libmclbn384.a obj/bn_c384.o
+ar: creating lib/libmclbn384.a
+g++ -o lib/libmclbn384_dy.so obj/bn_c384.o -shared -lrt -lgmp -lgmpxx -lcrypto -m64  
+
+g++ -g3 -Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align -Wwrite-strings -Wfloat-equal -Wpointer-arith -m64 -I include -I test -I ../xbyak -I ../cybozulib/include -fomit-frame-pointer -DNDEBUG -Ofast -march=native  -fPIC -DMCL_XBYAK_DIRECT_CALL -DMCL_USE_LLVM=1 -c src/bn_c512.cpp -o obj/bn_c512.o -MMD -MP -MF obj/bn_c512.d
+
+ar r lib/libmclbn512.a obj/bn_c512.o
+ar: creating lib/libmclbn512.a
+g++ -o lib/libmclbn512_dy.so obj/bn_c512.o -shared -lrt -lgmp -lgmpxx -lcrypto -m64  
+
+g++ -g3 -Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align -Wwrite-strings -Wfloat-equal -Wpointer-arith -m64 -I include -I test -I ../xbyak -I ../cybozulib/include -fomit-frame-pointer -DNDEBUG -Ofast -march=native  -fPIC -DMCL_XBYAK_DIRECT_CALL -DMCL_USE_LLVM=1 -c src/she_c256.cpp -o obj/she_c256.o -MMD -MP -MF obj/she_c256.d
+
+ar r lib/libmclshe256.a obj/she_c256.o
+ar: creating lib/libmclshe256.a
+g++ -g3 -Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align -Wwrite-strings -Wfloat-equal -Wpointer-arith -m64 -I include -I test -I ../xbyak -I ../cybozulib/include -fomit-frame-pointer -DNDEBUG -Ofast -march=native  -fPIC -DMCL_XBYAK_DIRECT_CALL -DMCL_USE_LLVM=1 -c src/ecdsa_c.cpp -o obj/ecdsa_c.o -MMD -MP -MF obj/ecdsa_c.d
+
+ar r lib/libmclecdsa.a obj/ecdsa_c.o
+ar: creating lib/libmclecdsa.a
+make[1]: Leaving directory '/home/neiman/work/programming/cryptography/bls/mcl'
+g++ -g3 -Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align -Wwrite-strings -Wfloat-equal -Wpointer-arith -m64 -I include -I test -I ../xbyak -I ../cybozulib/include -fomit-frame-pointer -DNDEBUG -Ofast -march=native  -fPIC -std=c++11 -I../mcl/include -D"MCLBN_FP_UNIT_SIZE=4" -c test/bls_test.cpp -o obj/bls_test.o -MMD -MP -MF obj/bls_test.d
+
+g++ obj/bls_test.o -o bin/bls_test.exe lib/libbls.a lib/libbls384.a -lmcl -L../mcl/lib -lrt -lgmp -lgmpxx -lcrypto -m64  -lpthread
+
+g++ -g3 -Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align -Wwrite-strings -Wfloat-equal -Wpointer-arith -m64 -I include -I test -I ../xbyak -I ../cybozulib/include -fomit-frame-pointer -DNDEBUG -Ofast -march=native  -fPIC -std=c++11 -I../mcl/include -D"MCLBN_FP_UNIT_SIZE=4" -c test/bls_c384_test.cpp -o obj/bls_c384_test.o -MMD -MP -MF obj/bls_c384_test.d
+
+g++ obj/bls_c384_test.o -o bin/bls_c384_test.exe lib/libbls.a lib/libbls384.a -lmcl -L../mcl/lib -lrt -lgmp -lgmpxx -lcrypto -m64  -lpthread
+
+test bin/bls_test.exe bin/bls_c384_test.exe
+all unit tests succeed
+make sample_test
+make[1]: Entering directory '/home/neiman/work/programming/cryptography/bls/bls'
+g++ -g3 -Wall -Wextra -Wformat=2 -Wcast-qual -Wcast-align -Wwrite-strings -Wfloat-equal -Wpointer-arith -m64 -I include -I test -I ../xbyak -I ../cybozulib/include -fomit-frame-pointer -DNDEBUG -Ofast -march=native  -fPIC -std=c++11 -I../mcl/include -D"MCLBN_FP_UNIT_SIZE=4" -c sample/bls_smpl.cpp -o obj/bls_smpl.o -MMD -MP -MF obj/bls_smpl.d
+
+g++ obj/bls_smpl.o -o bin/bls_smpl.exe lib/libbls.a lib/libbls384.a -lmcl -L../mcl/lib -lrt -lgmp -lgmpxx -lcrypto -m64  -lpthread
+
+python bls_smpl.py
+make sample/secretkey and sample/publickey files
+sign message `hello bls threshold signature` by id=0
+verify message `hello bls threshold signature` by id=0
+verify ok
+4-out-of-10 threshold sharing
+sign message `hello bls threshold signature` by id=1
+verify message `hello bls threshold signature` by id=1
+verify ok
+sign message `hello bls threshold signature` by id=5
+verify message `hello bls threshold signature` by id=5
+verify ok
+sign message `hello bls threshold signature` by id=3
+verify message `hello bls threshold signature` by id=3
+verify ok
+sign message `hello bls threshold signature` by id=7
+verify message `hello bls threshold signature` by id=7
+verify ok
+recover from 0x1 0x5 0x3 0x7
+verify message `hello bls threshold signature` by id=0
+verify ok
+make[1]: Leaving directory '/home/neiman/work/programming/cryptography/bls/bls'
+

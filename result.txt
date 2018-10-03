@@ -1,0 +1,2 @@
+ctest:name=bls_test, module=2, total=141, ok=141, ng=0, exception=0
+ctest:name=bls_c384_test, module=2, total=48, ok=48, ng=0, exception=0
